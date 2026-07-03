@@ -10,6 +10,17 @@
     <header class="border-b bg-white">
         <nav class="max-w-3xl mx-auto px-4 py-4 flex justify-between">
             <a href="{% url 'core:top' %}" class="font-bold">Portal</a>
+            <div class="text-sm">
+                {% if user.is_authenticated %}
+                    {{ user.username }}さん
+                    <form method="post" action="{% url 'accounts:logout' %}" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="ml-2 text-gray-500">ログアウト</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'accounts:login' %}">ログイン</a>
+                {% endif %}
+            </div>
         </nav>
     </header>
     <main class="max-w-3xl mx-auto px-4 py-10">
