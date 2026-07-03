@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'accounts',
+    'dashboard',
 ]
 
 MIDDLEWARE = [
@@ -119,5 +120,5 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 LOGIN_URL = 'accounts:login'
-LOGIN_REDIRECT_URL = 'core:top'   # dashboard作成後に 'dashboard:summary' へ変更予定
+LOGIN_REDIRECT_URL = 'dashboard:summary'
 LOGOUT_REDIRECT_URL = 'core:top'
