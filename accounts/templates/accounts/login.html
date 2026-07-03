@@ -1,0 +1,28 @@
+{% extends "core/top.html" %}
+
+{% block title %}ログイン | Portal{% endblock %}
+
+{% block content %}
+<section class="max-w-sm mx-auto">
+    <h1 class="text-2xl font-bold mb-6">ログイン</h1>
+
+    {% if form.errors %}
+    <p class="text-red-600 text-sm mb-4">ユーザー名またはパスワードが違います。</p>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label class="block text-sm text-gray-600 mb-1">ユーザー名</label>
+            {{ form.username }}
+        </div>
+        <div class="mb-6">
+            <label class="block text-sm text-gray-600 mb-1">パスワード</label>
+            {{ form.password }}
+        </div>
+        <button type="submit" class="w-full bg-gray-900 text-white py-2 rounded">
+            ログイン
+        </button>
+    </form>
+</section>
+{% endblock %}
