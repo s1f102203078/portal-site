@@ -1,0 +1,19 @@
+{% extends "core/top.html" %}
+
+{% block title %}ダッシュボード | Portal{% endblock %}
+
+{% block content %}
+<section>
+    <h1 class="text-2xl font-bold mb-6">ダッシュボード</h1>
+    <p class="text-gray-600">
+        ようこそ、{{ user.username }}さん。ここは非公開エリアです。
+    </p>
+
+    <div class="mt-8 grid gap-4 sm:grid-cols-2">
+        <div class="border rounded-lg p-4 bg-white">
+            <h2 class="font-semibold mb-2">家計・投資</h2>
+            <p class="text-sm text-gray-500">準備中(Notion連携予定)</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
