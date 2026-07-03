@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Portal{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <header class="border-b bg-white">
+        <nav class="max-w-3xl mx-auto px-4 py-4 flex justify-between">
+            <a href="{% url 'core:top' %}" class="font-bold">Portal</a>
+        </nav>
+    </header>
+    <main class="max-w-3xl mx-auto px-4 py-10">
+        {% block content %}
+        <section>
+            <h1 class="text-2xl font-bold mb-4">About</h1>
+            <p class="text-gray-600">
+                INIAD在学中。SE/ITコンサル/PdMを軸に就活中。
+                このサイトは自作の学習・実務系ポータルです。
+            </p>
+        </section>
+        {% endblock %}
+    </main>
+</body>
+</html>
