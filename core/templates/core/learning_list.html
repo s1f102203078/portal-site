@@ -1,0 +1,39 @@
+{% extends "core/top.html" %}
+
+{% block title %}学習ログ | Portal{% endblock %}
+
+{% block content %}
+<section>
+    <h1 class="text-2xl font-bold mb-6">学習ログ・制作物</h1>
+
+    {% if logs %}
+    <div class="space-y-4">
+        {% for log in logs %}
+        <article class="border rounded-lg p-4 bg-white">
+            <div class="flex justify-between items-start">
+                <h2 class="font-semibold text-lg">{{ log.title }}</h2>
+                <time class="text-xs text-gray-400">{{ log.created_at }}</time>
+            </div>
+            <p class="text-gray-600 text-sm mt-2">{{ log.description }}</p>
+
+            {% if log.tech_list %}
+            <div class="flex gap-2 mt-3 flex-wrap">
+                {% for tech in log.tech_list %}
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">{{ tech }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if log.repo_url %}
+            <a href="{{ log.repo_url }}" class="text-sm text-blue-600 mt-2 inline-block" target="_blank" rel="noopener">
+                リポジトリを見る →
+            </a>
+            {% endif %}
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-gray-400">まだ記録がありません。</p>
+    {% endif %}
+</section>
+{% endblock %}
