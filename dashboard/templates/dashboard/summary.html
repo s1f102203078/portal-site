@@ -5,14 +5,33 @@
 {% block content %}
 <section>
     <h1 class="text-2xl font-bold mb-6">ダッシュボード</h1>
-    <p class="text-gray-600">
-        ようこそ、{{ user.username }}さん。ここは非公開エリアです。
+    <p class="text-gray-600 mb-8">
+        ようこそ、{{ user.username }}さん。
     </p>
 
-    <div class="mt-8 grid gap-4 sm:grid-cols-2">
-        <div class="border rounded-lg p-4 bg-white">
-            <h2 class="font-semibold mb-2">家計・投資</h2>
-            <p class="text-sm text-gray-500">準備中(Notion連携予定)</p>
+    <div class="grid gap-4 sm:grid-cols-2">
+        <a href="{% url 'dashboard:budget_list' %}" class="border rounded-lg p-4 bg-white hover:shadow transition block">
+            <h2 class="font-semibold mb-1">家計・投資</h2>
+            <p class="text-2xl font-bold">{{ total_this_month|floatformat:0 }}円</p>
+            <p class="text-sm text-gray-500">{{ month_label }}の支出</p>
+        </a>
+    </div>
+
+    <div class="mt-8">
+        <h2 class="font-semibold mb-3">直近の取引</h2>
+        <div class="bg-white border rounded-lg divide-y">
+            {% for t in recent_transactions %}
+            <div class="flex justify-between px-4 py-3 text-sm">
+                <div>
+                    <span class="text-gray-400 mr-3">{{ t.date }}</span>
+                    <span>{{ t.memo }}</span>
+                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded ml-2">{{ t.category }}</span>
+                </div>
+                <span class="font-medium">{{ t.amount }}円</span>
+            </div>
+            {% empty %}
+            <p class="px-4 py-3 text-gray-400 text-sm">データがありません</p>
+            {% endfor %}
         </div>
     </div>
 </section>
