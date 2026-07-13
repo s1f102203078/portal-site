@@ -1,0 +1,42 @@
+{% extends "core/top.html" %}
+
+{% block title %}家計・投資 | Portal{% endblock %}
+
+{% block content %}
+<section>
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">家計・投資</h1>
+        <a href="{% url 'dashboard:summary' %}" class="text-sm text-gray-500">← ダッシュボードに戻る</a>
+    </div>
+
+    <div class="mb-4 flex gap-2 flex-wrap">
+        <a href="{% url 'dashboard:budget_list' %}"
+           class="text-xs px-3 py-1 rounded-full {% if not selected_category %}bg-gray-900 text-white{% else %}bg-gray-100 text-gray-600{% endif %}">
+            全て
+        </a>
+        {% for cat in categories %}
+        <a href="?category={{ cat }}"
+           class="text-xs px-3 py-1 rounded-full {% if selected_category == cat %}bg-gray-900 text-white{% else %}bg-gray-100 text-gray-600{% endif %}">
+            {{ cat }}
+        </a>
+        {% endfor %}
+    </div>
+
+    <p class="text-sm text-gray-500 mb-4">合計: <span class="font-bold text-gray-900">{{ total|floatformat:0 }}円</span></p>
+
+    <div class="bg-white border rounded-lg divide-y">
+        {% for t in transactions %}
+        <div class="flex justify-between px-4 py-3 text-sm">
+            <div>
+                <span class="text-gray-400 mr-3">{{ t.date }}</span>
+                <span>{{ t.memo }}</span>
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded ml-2">{{ t.category }}</span>
+            </div>
+            <span class="font-medium">{{ t.amount }}円</span>
+        </div>
+        {% empty %}
+        <p class="px-4 py-3 text-gray-400 text-sm">データがありません</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
