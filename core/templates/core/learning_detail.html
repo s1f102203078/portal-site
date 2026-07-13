@@ -1,0 +1,35 @@
+{% extends "core/top.html" %}
+{% load markdown_extras %}
+
+{% block title %}{{ log.title }} | Portal{% endblock %}
+
+{% block content %}
+<article>
+    <a href="{% url 'core:learning_list' %}" class="text-sm text-gray-500">← 学習ログ一覧に戻る</a>
+
+    <h1 class="text-2xl font-bold mt-4 mb-2">{{ log.title }}</h1>
+    <time class="text-sm text-gray-400">{{ log.created_at }}</time>
+
+    {% if log.cover_image %}
+    <img src="{{ log.cover_image.url }}" alt="{{ log.title }}" class="w-full rounded-lg my-6">
+    {% endif %}
+
+    {% if log.tech_list %}
+    <div class="flex gap-2 mt-4 mb-6 flex-wrap">
+        {% for tech in log.tech_list %}
+        <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">{{ tech }}</span>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="prose max-w-none mt-6">
+        {{ log.body|markdown }}
+    </div>
+
+    {% if log.repo_url %}
+    <a href="{{ log.repo_url }}" class="text-sm text-blue-600 mt-8 inline-block" target="_blank" rel="noopener">
+        リポジトリを見る →
+    </a>
+    {% endif %}
+</article>
+{% endblock %}

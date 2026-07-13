@@ -11,7 +11,7 @@
         {% for log in logs %}
         <article class="border rounded-lg p-4 bg-white">
             <div class="flex justify-between items-start">
-                <h2 class="font-semibold text-lg">{{ log.title }}</h2>
+                <h2 class="font-semibold text-lg"><a href="{{ log.get_absolute_url }}" class="hover:underline">{{ log.title }}</a></h2>
                 <time class="text-xs text-gray-400">{{ log.created_at }}</time>
             </div>
             <p class="text-gray-600 text-sm mt-2">{{ log.description }}</p>

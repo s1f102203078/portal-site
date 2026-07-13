@@ -124,3 +124,6 @@ LOGIN_REDIRECT_URL = 'dashboard:summary'
 LOGOUT_REDIRECT_URL = 'core:top'
 
 
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'

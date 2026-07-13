@@ -6,4 +6,5 @@ app_name = 'core'
 urlpatterns = [
     path('', views.TopView.as_view(), name='top'),
     path('learning/', views.LearningLogListView.as_view(), name='learning_list'),
+    path('learning/<slug:slug>/', views.LearningLogDetailView.as_view(), name='learning_detail'),
 ]
