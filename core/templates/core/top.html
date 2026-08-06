@@ -40,8 +40,16 @@
     <div class="flex-1 min-w-0">
         <!-- ============ Top ============ -->
         <section id="top" data-label="トップ" class="tab-section py-16 text-center border-b">
-            <p class="text-xs tracking-wide text-gray-400 mb-4">INIAD / 28卒 / ソフトウェアエンジニア志望</p>
-            <h1 class="text-2xl font-medium mb-3">学びを、形にする。</h1>
+            <p class="text-xs tracking-wide text-gray-400 mb-6">INIAD / 28卒 / ソフトウェアエンジニア志望</p>
+
+            <!-- 名前散らばり演出: 文字ごとにspan化し、初期はバラバラ配置→マウス操作で収束 -->
+            <h1 id="scatter-name"
+                data-text="KEISUKE"
+                class="text-4xl sm:text-6xl font-bold tracking-widest mb-3 h-16 sm:h-20 flex items-center justify-center select-none"
+                aria-label="KEISUKE">
+            </h1>
+            <p class="text-xs text-gray-400 mb-8">マウスを動かすと文字が集まります</p>
+
             <p class="text-sm text-gray-600 max-w-md mx-auto mb-6 leading-relaxed">
                 投資への関心から始まり、技術で金融の課題を解きたいと考えています。
             </p>
@@ -298,6 +306,77 @@
     window.addEventListener('hashchange', render);
     window.addEventListener('DOMContentLoaded', render);
     render();
+})();
+</script>
+
+<script>
+// 名前散らばり演出: 文字ごとにspan化し、初期位置をランダムに散らす→マウス位置に応じて収束する
+(function () {
+    var el = document.getElementById('scatter-name');
+    if (!el) return;
+
+    var text = el.dataset.text || '';
+    var chars = text.split('');
+
+    // 文字ごとにspanを生成し、初期のランダムなオフセット/回転を持たせる
+    var spans = chars.map(function (ch) {
+        var span = document.createElement('span');
+        span.textContent = ch;
+        span.style.display = 'inline-block';
+        span.style.willChange = 'transform';
+        span.dataset.offsetX = (Math.random() - 0.5) * 400;
+        span.dataset.offsetY = (Math.random() - 0.5) * 200;
+        span.dataset.rotate = (Math.random() - 0.5) * 120;
+        el.appendChild(span);
+        return span;
+    });
+
+    function applyScatter(progress) {
+        // progress: 0=完全に散らばった状態, 1=文字が揃った状態
+        spans.forEach(function (span) {
+            var ox = parseFloat(span.dataset.offsetX) * (1 - progress);
+            var oy = parseFloat(span.dataset.offsetY) * (1 - progress);
+            var rot = parseFloat(span.dataset.rotate) * (1 - progress);
+            span.style.transform = 'translate(' + ox + 'px,' + oy + 'px) rotate(' + rot + 'deg)';
+            span.style.opacity = String(0.3 + 0.7 * progress);
+        });
+    }
+
+    // 初期表示: バラバラの状態から始める
+    applyScatter(0);
+
+    var rafPending = false;
+    var targetProgress = 0;
+
+    function scheduleUpdate() {
+        if (rafPending) return;
+        rafPending = true;
+        window.requestAnimationFrame(function () {
+            applyScatter(targetProgress);
+            rafPending = false;
+        });
+    }
+
+    // マウスが要素に近いほど収束させる（要素中心からの距離で進捗を決定）
+    function handlePointerMove(e) {
+        var rect = el.getBoundingClientRect();
+        var cx = rect.left + rect.width / 2;
+        var cy = rect.top + rect.height / 2;
+        var dx = e.clientX - cx;
+        var dy = e.clientY - cy;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        var maxDist = 500; // この距離以上離れていたら完全に散らばった状態
+        targetProgress = Math.max(0, Math.min(1, 1 - dist / maxDist));
+        scheduleUpdate();
+    }
+
+    window.addEventListener('mousemove', handlePointerMove);
+
+    // タッチデバイスではマウス操作ができないため、表示された時点で揃った状態にする
+    if (window.matchMedia('(hover: none)').matches) {
+        targetProgress = 1;
+        scheduleUpdate();
+    }
 })();
 </script>
 {% endblock %}
