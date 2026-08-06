@@ -1,18 +1,29 @@
 from django.db import models
 
 
-class LearningLog(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.TextField()
-    tech_stack = models.CharField(max_length=200, blank=True, help_text="カンマ区切り 例: Django, Python")
-    repo_url = models.URLField(blank=True)
-    created_at = models.DateField()
+class NoteArticle(models.Model):
+    CATEGORY_EXPERIENCE = 'experience'
+    CATEGORY_PERSONAL = 'personal'
+    CATEGORY_TEAM = 'team'
+    CATEGORY_CHOICES = [
+        (CATEGORY_EXPERIENCE, '経験談'),
+        (CATEGORY_PERSONAL, '個人開発'),
+        (CATEGORY_TEAM, 'チーム開発'),
+    ]
+
+    title = models.CharField(max_length=200)
+    url = models.URLField(unique=True)
+    summary = models.TextField(blank=True, help_text="RSSのdescriptionをそのまま保存")
+    category = models.CharField(
+        max_length=20,
+        choices=CATEGORY_CHOICES,
+        default=CATEGORY_PERSONAL,
+        help_text="noteの記事に付けたハッシュタグから自動判定",
+    )
+    published_at = models.DateTimeField()
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['-published_at']
 
     def __str__(self):
         return self.title
-
-    def tech_list(self):
-        return [t.strip() for t in self.tech_stack.split(',') if t.strip()]

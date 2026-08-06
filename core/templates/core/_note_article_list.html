@@ -1,0 +1,24 @@
+{% if articles %}
+<div class="space-y-3">
+    {% for article in articles %}
+    <article class="border rounded-lg p-4 bg-white">
+        <div class="flex justify-between items-start gap-4">
+            <h3 class="font-medium text-sm">
+                <a href="{{ article.url }}" target="_blank" rel="noopener" class="hover:underline">
+                    {{ article.title }}
+                </a>
+            </h3>
+            <time class="text-xs text-gray-400 shrink-0">{{ article.published_at|date:"Y.m.d" }}</time>
+        </div>
+        {% if article.summary %}
+        <p class="text-xs text-gray-500 mt-2 leading-relaxed">{{ article.summary|truncatechars:120 }}</p>
+        {% endif %}
+        <a href="{{ article.url }}" target="_blank" rel="noopener" class="text-xs text-blue-600 mt-2 inline-block">
+            noteで読む →
+        </a>
+    </article>
+    {% endfor %}
+</div>
+{% else %}
+<p class="text-sm text-gray-400">まだ記事がありません。</p>
+{% endif %}

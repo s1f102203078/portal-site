@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Portal{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <header class="border-b bg-white">
+        <nav class="max-w-3xl mx-auto px-4 py-4 flex justify-between">
+            <a href="{% url 'core:top' %}" class="font-bold">Portal</a>
+            <div class="text-sm flex items-center gap-4">
+                <a href="{% url 'core:top' %}#articles">Articles</a>
+                <a href="{% url 'core:top' %}#contact">Contact</a>
+            </div>
+        </nav>
+    </header>
+    <main class="{% block main_class %}max-w-3xl mx-auto px-4 py-10{% endblock %}">
+        {% block content %}{% endblock %}
+    </main>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
