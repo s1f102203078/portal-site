@@ -1,53 +1,303 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Portal{% endblock %}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .prose h2 { font-size: 1.25rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.5rem; }
-        .prose h3 { font-size: 1.1rem; font-weight: 600; margin-top: 1.25rem; margin-bottom: 0.5rem; }
-        .prose p { margin-bottom: 1rem; line-height: 1.7; }
-        .prose ul, .prose ol { margin-left: 1.5rem; margin-bottom: 1rem; }
-        .prose li { margin-bottom: 0.25rem; }
-        .prose code { background: #f3f4f6; padding: 0.15rem 0.4rem; border-radius: 0.25rem; font-size: 0.9em; }
-        .prose pre { background: #1f2937; color: #f3f4f6; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 1rem; }
-        .prose pre code { background: none; padding: 0; }
-        .prose img { border-radius: 0.5rem; margin: 1rem 0; }
-        .prose table { border-collapse: collapse; width: 100%; margin-bottom: 1rem; }
-        .prose th, .prose td { border: 1px solid #e5e7eb; padding: 0.5rem; text-align: left; }
-    </style>
-</head>
-<body class="bg-gray-50 text-gray-900">
-    <header class="border-b bg-white">
-        <nav class="max-w-3xl mx-auto px-4 py-4 flex justify-between">
-            <a href="{% url 'core:top' %}" class="font-bold">Portal</a>
-            <div class="text-sm flex items-center gap-4">
-                <a href="{% url 'core:learning_list' %}">学習ログ</a>
-                {% if user.is_authenticated %}
-                    <a href="{% url 'dashboard:summary' %}">ダッシュボード</a>
-                    {{ user.username }}さん
-                    <form method="post" action="{% url 'accounts:logout' %}" class="inline">
-                        {% csrf_token %}
-                        <button type="submit" class="text-gray-500">ログアウト</button>
-                    </form>
-                {% else %}
-                    <a href="{% url 'accounts:login' %}">ログイン</a>
-                {% endif %}
-            </div>
-        </nav>
-    </header>
-    <main class="max-w-3xl mx-auto px-4 py-10">
-        {% block content %}
-        <section>
-            <h1 class="text-2xl font-bold mb-4">About</h1>
-            <p class="text-gray-600">
-                INIAD在学中。SE/ITコンサル/PdMを軸に就活中。
-                このサイトは自作の学習・実務系ポータルです。
+{% extends "core/base.html" %}
+
+{% block title %}Portal{% endblock %}
+
+{% block main_class %}max-w-5xl mx-auto px-4 py-10{% endblock %}
+
+{% block content %}
+<div class="flex gap-10">
+    <!-- 左ナビ（デスクトップ）: 親タブ + アクティブな親の子タブのみ表示 -->
+    <nav aria-label="ページ内ナビゲーション" class="hidden md:flex md:flex-col md:gap-1 sticky top-24 self-start w-44 shrink-0 text-sm">
+        <a href="#top" data-target="top" class="tab-link parent-link px-2 py-1.5 rounded text-gray-400 hover:text-gray-900">- Top</a>
+
+        <a href="#about" data-target="about" data-parent="about" class="tab-link parent-link px-2 py-1.5 rounded text-gray-400 hover:text-gray-900">- About</a>
+        <div class="subnav pl-4 flex flex-col gap-0.5 hidden" data-subnav-for="about">
+            <a href="#about-profile" data-target="about-profile" data-parent="about" class="sub-tab-link px-2 py-1 rounded text-xs text-gray-400 hover:text-gray-900">自己紹介</a>
+            <a href="#about-hobbies" data-target="about-hobbies" data-parent="about" class="sub-tab-link px-2 py-1 rounded text-xs text-gray-400 hover:text-gray-900">趣味</a>
+            <a href="#about-strengths" data-target="about-strengths" data-parent="about" class="sub-tab-link px-2 py-1 rounded text-xs text-gray-400 hover:text-gray-900">強み</a>
+            <a href="#about-skills" data-target="about-skills" data-parent="about" class="sub-tab-link px-2 py-1 rounded text-xs text-gray-400 hover:text-gray-900">スキル</a>
+            <a href="#about-university" data-target="about-university" data-parent="about" class="sub-tab-link px-2 py-1 rounded text-xs text-gray-400 hover:text-gray-900">大学で学んでいること</a>
+        </div>
+
+        <a href="#articles" data-target="articles" data-parent="articles" class="tab-link parent-link px-2 py-1.5 rounded text-gray-400 hover:text-gray-900">- Articles</a>
+        <div class="subnav pl-4 flex flex-col gap-0.5 hidden" data-subnav-for="articles">
+            <a href="#articles-experience" data-target="articles-experience" data-parent="articles" class="sub-tab-link px-2 py-1 rounded text-xs text-gray-400 hover:text-gray-900">経験談</a>
+            <a href="#articles-personal" data-target="articles-personal" data-parent="articles" class="sub-tab-link px-2 py-1 rounded text-xs text-gray-400 hover:text-gray-900">個人開発</a>
+            <a href="#articles-team" data-target="articles-team" data-parent="articles" class="sub-tab-link px-2 py-1 rounded text-xs text-gray-400 hover:text-gray-900">チーム開発</a>
+        </div>
+
+        <a href="#contact" data-target="contact" class="tab-link parent-link px-2 py-1.5 rounded text-gray-400 hover:text-gray-900">- Contact</a>
+    </nav>
+
+    <!-- モバイル用: 親タブのみ横スクロール、子タブはセクション内に埋め込み表示（下記参照） -->
+    <nav aria-label="ページ内ナビゲーション（モバイル）" class="md:hidden flex gap-4 overflow-x-auto text-sm border-b pb-2 mb-4 w-full">
+        <a href="#top" data-target="top" class="tab-link parent-link shrink-0 text-gray-400">Top</a>
+        <a href="#about" data-target="about" data-parent="about" class="tab-link parent-link shrink-0 text-gray-400">About</a>
+        <a href="#articles" data-target="articles" data-parent="articles" class="tab-link parent-link shrink-0 text-gray-400">Articles</a>
+        <a href="#contact" data-target="contact" class="tab-link parent-link shrink-0 text-gray-400">Contact</a>
+    </nav>
+
+    <div class="flex-1 min-w-0">
+        <!-- ============ Top ============ -->
+        <section id="top" data-label="トップ" class="tab-section py-16 text-center border-b">
+            <p class="text-xs tracking-wide text-gray-400 mb-4">INIAD / 28卒 / ソフトウェアエンジニア志望</p>
+            <h1 class="text-2xl font-medium mb-3">学びを、形にする。</h1>
+            <p class="text-sm text-gray-600 max-w-md mx-auto mb-6 leading-relaxed">
+                投資への関心から始まり、技術で金融の課題を解きたいと考えています。
             </p>
+            <div class="flex gap-3 justify-center">
+                <a href="#about-profile" class="tab-link text-sm px-5 py-2 rounded bg-gray-900 text-white">自己紹介を見る</a>
+                <a href="#articles-personal" class="tab-link text-sm px-5 py-2 rounded border">Articlesへ</a>
+            </div>
         </section>
-        {% endblock %}
-    </main>
-</body>
-</html>
+
+        <!-- ============ About（親） ============ -->
+        <section id="about" data-label="About" class="tab-section py-14 border-b">
+            <!-- モバイル用の子タブ（デスクトップは左ナビのsubnavを使うのでここは md:hidden） -->
+            <nav aria-label="Aboutセクション内ナビ" class="md:hidden flex gap-3 overflow-x-auto text-xs border-b pb-2 mb-6">
+                <a href="#about-profile" data-target="about-profile" data-parent="about" class="sub-tab-link shrink-0 text-gray-400">自己紹介</a>
+                <a href="#about-hobbies" data-target="about-hobbies" data-parent="about" class="sub-tab-link shrink-0 text-gray-400">趣味</a>
+                <a href="#about-strengths" data-target="about-strengths" data-parent="about" class="sub-tab-link shrink-0 text-gray-400">強み</a>
+                <a href="#about-skills" data-target="about-skills" data-parent="about" class="sub-tab-link shrink-0 text-gray-400">スキル</a>
+                <a href="#about-university" data-target="about-university" data-parent="about" class="sub-tab-link shrink-0 text-gray-400">大学で学んでいること</a>
+            </nav>
+
+            <div id="about-profile" class="sub-section" data-parent="about">
+                <p class="text-xs text-gray-400 mb-2">about / 自己紹介</p>
+                <h2 class="text-lg font-medium mb-4">自己紹介</h2>
+                <div class="flex gap-5 items-start mb-4">
+                    <div class="w-14 h-14 rounded-full bg-blue-50 shrink-0 flex items-center justify-center text-xs font-medium text-blue-700">
+                        写真
+                    </div>
+                    <p class="text-sm text-gray-600 leading-loose">
+                        高校生の頃、ニュースで見た決算発表をきっかけに株式投資を始めた。数字の裏にある企業の意思決定に興味を持ち、
+                        やがて「技術がその意思決定をどう支えられるか」という問いに関心が移っていった。
+                    </p>
+                </div>
+                <p class="text-sm text-gray-600 leading-loose mb-3">
+                    大学ではDjangoやAndroid開発を通じて手を動かす学びを積み重ねる一方、家計簿を自作ツールで自動化するなど、
+                    日常の課題を自分の手で解決することを習慣にしてきた。派手さより、地道な継続を大事にするタイプ。
+                </p>
+                <p class="text-sm text-gray-600 leading-loose">
+                    今は、投資の実体験と技術の両方を持つ強みを活かし、フィンテック領域で価値を出せるエンジニアになることを目指している。
+                </p>
+            </div>
+
+            <div id="about-hobbies" class="sub-section" data-parent="about">
+                <p class="text-xs text-gray-400 mb-2">about / 趣味</p>
+                <h2 class="text-lg font-medium mb-5">趣味</h2>
+                <div class="grid grid-cols-3 gap-4">
+                    <div>
+                        <div class="aspect-square bg-gray-50 rounded flex items-center justify-center text-gray-300 text-xs mb-2">photo</div>
+                        <p class="text-xs font-medium">株式投資</p>
+                        <p class="text-xs text-gray-500 mt-0.5">SBI証券NISA運用中</p>
+                    </div>
+                    <div>
+                        <div class="aspect-square bg-gray-50 rounded flex items-center justify-center text-gray-300 text-xs mb-2">photo</div>
+                        <p class="text-xs font-medium">ワイン</p>
+                        <p class="text-xs text-gray-500 mt-0.5">週末はテイスティングを楽しむ</p>
+                    </div>
+                    <div>
+                        <div class="aspect-square bg-gray-50 rounded flex items-center justify-center text-gray-300 text-xs mb-2">photo</div>
+                        <p class="text-xs font-medium">音楽</p>
+                        <p class="text-xs text-gray-500 mt-0.5">サカナクションのライブに参戦</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="about-strengths" class="sub-section" data-parent="about">
+                <p class="text-xs text-gray-400 mb-2">about / 強み</p>
+                <h2 class="text-lg font-medium mb-5">強み</h2>
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                        <p class="text-sm font-medium mb-1">継続力</p>
+                        <p class="text-xs text-gray-500">日々の学習ログと家計管理を継続中</p>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium mb-1">課題発見力</p>
+                        <p class="text-xs text-gray-500">身の回りの不便を自作ツールで解決</p>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium mb-1">数字への強さ</p>
+                        <p class="text-xs text-gray-500">投資経験に基づく定量的な視点</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="about-skills" class="sub-section" data-parent="about">
+                <p class="text-xs text-gray-400 mb-2">about / スキル</p>
+                <h2 class="text-lg font-medium mb-5">スキル</h2>
+                <div class="space-y-2.5 text-sm">
+                    <div class="flex gap-3">
+                        <span class="text-gray-400 w-24 shrink-0">言語</span>
+                        <span>Python, Java</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="text-gray-400 w-24 shrink-0">フレームワーク</span>
+                        <span>Django, Tailwind CSS</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="text-gray-400 w-24 shrink-0">ツール</span>
+                        <span>GitHub Actions, Notion API</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="text-gray-400 w-24 shrink-0">領域</span>
+                        <span>投資分析, 家計管理自動化</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="about-university" class="sub-section" data-parent="about">
+                <p class="text-xs text-gray-400 mb-2">about / 大学で学んでいること</p>
+                <h2 class="text-lg font-medium mb-5">大学で学んでいること</h2>
+                <div class="space-y-2.5 text-sm">
+                    <div class="flex gap-3">
+                        <span class="text-gray-400 w-24 shrink-0">モバイル</span>
+                        <span>Android（Java）でのデザインパターン実装</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="text-gray-400 w-24 shrink-0">Web</span>
+                        <span>Django + GitHub Actions CI/CD</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="text-gray-400 w-24 shrink-0">アルゴリズム</span>
+                        <span>グラフ探索・最短経路・マッチング問題（Python）</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ Articles（親） ============ -->
+        <section id="articles" data-label="Articles" class="tab-section py-14 border-b">
+            <nav aria-label="Articlesセクション内ナビ" class="md:hidden flex gap-3 overflow-x-auto text-xs border-b pb-2 mb-6">
+                <a href="#articles-experience" data-target="articles-experience" data-parent="articles" class="sub-tab-link shrink-0 text-gray-400">経験談</a>
+                <a href="#articles-personal" data-target="articles-personal" data-parent="articles" class="sub-tab-link shrink-0 text-gray-400">個人開発</a>
+                <a href="#articles-team" data-target="articles-team" data-parent="articles" class="sub-tab-link shrink-0 text-gray-400">チーム開発</a>
+            </nav>
+
+            <div id="articles-experience" class="sub-section" data-parent="articles">
+                <p class="text-xs text-gray-400 mb-2">articles / 経験談</p>
+                <h2 class="text-lg font-medium mb-5">経験談</h2>
+                {% include "core/_note_article_list.html" with articles=articles_by_category.experience %}
+            </div>
+
+            <div id="articles-personal" class="sub-section" data-parent="articles">
+                <p class="text-xs text-gray-400 mb-2">articles / 個人開発</p>
+                <h2 class="text-lg font-medium mb-5">個人開発</h2>
+                {% include "core/_note_article_list.html" with articles=articles_by_category.personal %}
+            </div>
+
+            <div id="articles-team" class="sub-section" data-parent="articles">
+                <p class="text-xs text-gray-400 mb-2">articles / チーム開発</p>
+                <h2 class="text-lg font-medium mb-5">チーム開発</h2>
+                {% include "core/_note_article_list.html" with articles=articles_by_category.team %}
+            </div>
+        </section>
+
+        <!-- ============ Contact ============ -->
+        <section id="contact" data-label="お問い合わせ" class="tab-section py-14 flex justify-between items-center">
+            <div>
+                <p class="text-sm font-medium mb-1">お問い合わせ</p>
+                <p class="text-xs text-gray-500">GitHub / メールでご連絡ください</p>
+            </div>
+            <div class="flex gap-3 text-gray-500">
+                <a href="https://github.com/s1f102203078" target="_blank" rel="noopener" aria-label="GitHub">GitHub</a>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+(function () {
+    var DEFAULT_PARENT = 'top';
+    // 親タブごとの子タブ一覧（親のみのタブ = top, contact は子を持たない）
+    var CHILDREN = {
+        about: ['profile', 'hobbies', 'strengths', 'skills', 'university'],
+        articles: ['experience', 'personal', 'team'],
+    };
+
+    var sections = Array.from(document.querySelectorAll('.tab-section'));       // 親セクション（top/about/articles/contact）
+    var subSections = Array.from(document.querySelectorAll('.sub-section'));    // 子セクション
+    var parentLinks = Array.from(document.querySelectorAll('.parent-link[data-target]'));
+    var subLinks = Array.from(document.querySelectorAll('.sub-tab-link[data-target]'));
+    var subnavs = Array.from(document.querySelectorAll('.subnav[data-subnav-for]')); // デスクトップ左ナビの子タブ一覧ブロック
+
+    function parseHash() {
+        var raw = (location.hash || '').replace('#', '');
+        if (!raw) return { parent: DEFAULT_PARENT, child: null };
+
+        // "about-hobbies" のような "親-子" 形式を判定
+        for (var parent in CHILDREN) {
+            var prefix = parent + '-';
+            if (raw.indexOf(prefix) === 0) {
+                var child = raw.slice(prefix.length);
+                if (CHILDREN[parent].indexOf(child) !== -1) {
+                    return { parent: parent, child: child };
+                }
+            }
+        }
+
+        // "about" のように親だけ指定された場合は最初の子をデフォルト表示
+        if (raw === 'about' || raw === 'articles') {
+            return { parent: raw, child: CHILDREN[raw][0] };
+        }
+        if (raw === 'top' || raw === 'contact') {
+            return { parent: raw, child: null };
+        }
+
+        return { parent: DEFAULT_PARENT, child: null };
+    }
+
+    function render() {
+        var state = parseHash();
+
+        // 親セクションの表示切り替え
+        sections.forEach(function (s) {
+            var active = s.id === state.parent;
+            s.classList.toggle('hidden', !active);
+            s.setAttribute('aria-hidden', active ? 'false' : 'true');
+        });
+
+        // 子セクションの表示切り替え（アクティブな親の中でのみ意味を持つ）
+        subSections.forEach(function (s) {
+            var active = s.dataset.parent === state.parent && s.id === (state.parent + '-' + state.child);
+            s.classList.toggle('hidden', !active);
+        });
+
+        // 親タブのハイライト
+        parentLinks.forEach(function (link) {
+            var linkParent = link.dataset.parent || link.dataset.target; // top/contactはdata-parentなし
+            var active = linkParent === state.parent;
+            link.classList.toggle('text-gray-900', active);
+            link.classList.toggle('font-medium', active);
+            link.classList.toggle('bg-gray-100', active);
+            link.classList.toggle('text-gray-400', !active);
+            if (active) link.setAttribute('aria-current', 'page');
+            else link.removeAttribute('aria-current');
+        });
+
+        // 子タブのハイライト
+        subLinks.forEach(function (link) {
+            var active = link.dataset.target === (state.parent + '-' + state.child);
+            link.classList.toggle('text-gray-900', active);
+            link.classList.toggle('font-medium', active);
+            link.classList.toggle('bg-gray-100', active);
+            link.classList.toggle('text-gray-400', !active);
+            if (active) link.setAttribute('aria-current', 'page');
+            else link.removeAttribute('aria-current');
+        });
+
+        // デスクトップ左ナビ: アクティブな親のsubnavだけ表示
+        subnavs.forEach(function (nav) {
+            nav.classList.toggle('hidden', nav.dataset.subnavFor !== state.parent);
+        });
+    }
+
+    window.addEventListener('hashchange', render);
+    window.addEventListener('DOMContentLoaded', render);
+    render();
+})();
+</script>
+{% endblock %}

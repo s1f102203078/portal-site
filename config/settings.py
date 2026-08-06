@@ -36,9 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
-    'accounts',
-    'dashboard',
-    'budget',
 ]
 
 MIDDLEWARE = [
@@ -118,12 +115,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-LOGIN_URL = 'accounts:login'
-LOGIN_REDIRECT_URL = 'dashboard:summary'
-LOGOUT_REDIRECT_URL = 'core:top'
-
-
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
