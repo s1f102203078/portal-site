@@ -9,16 +9,19 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Call sync webhook
-        run: |
-          response=$(curl -s -o /tmp/response.json -w "%{http_code}" -X POST \
-            "${{ secrets.SYNC_ENDPOINT_URL }}" \
-            -H "X-Sync-Token: ${{ secrets.SYNC_SECRET_TOKEN }}")
+      - uses: actions/checkout@v4
 
-          echo "HTTP status: $response"
-          cat /tmp/response.json
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
 
-          if [ "$response" -ne 200 ]; then
-            echo "Sync failed"
-            exit 1
-          fi
+      - name: Install dependencies
+        run: pip install feedparser requests
+
+      - name: Fetch RSS and push to webhook
+        env:
+          NOTE_RSS_URL: ${{ secrets.NOTE_RSS_URL }}
+          SYNC_ENDPOINT_URL: ${{ secrets.SYNC_ENDPOINT_URL }}
+          SYNC_SECRET_TOKEN: ${{ secrets.SYNC_SECRET_TOKEN }}
+        run: python scripts/fetch_and_push_note.py
