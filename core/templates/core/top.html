@@ -1,193 +1,250 @@
 {% extends "core/base.html" %}
+{% load static %}
 
 {% block title %}Portal{% endblock %}
 
-{% block main_class %}max-w-5xl mx-auto px-4 py-10{% endblock %}
+{% block main_class %}max-w-6xl mx-auto px-4 py-10{% endblock %}
 
 {% block content %}
-<div class="flex gap-10">
-    <!-- 左ナビ（デスクトップ）: 親タブ + アクティブな親の子タブのみ表示 -->
-    <nav aria-label="ページ内ナビゲーション" class="hidden md:flex md:flex-col md:gap-1 sticky top-24 self-start w-44 shrink-0 text-sm">
-        <a href="#top" data-target="top" class="tab-link parent-link px-2 py-1.5 rounded text-gray-400 hover:text-gray-900">- Top</a>
+<div class="flex flex-col md:flex-row gap-6 md:gap-10 w-full min-h-[calc(100vh-5rem)]">
+    <!-- 左ナビ（デスクトップ）: 親タブは常時表示、子タブは親タブへのホバー時に展開 -->
+    <nav aria-label="ページ内ナビゲーション" class="hidden md:fixed md:left-4 md:top-1/3 md:z-10 md:flex md:flex-col md:gap-1 w-44 text-sm">
+        <a href="#top" data-target="top" class="tab-link parent-link px-3 py-2 rounded text-base text-gray-400 hover:text-gray-900 whitespace-nowrap">- Top</a>
 
-        <a href="#about" data-target="about" data-parent="about" class="tab-link parent-link px-2 py-1.5 rounded text-gray-400 hover:text-gray-900">- About</a>
-        <div class="subnav pl-4 flex flex-col gap-0.5 hidden" data-subnav-for="about">
-            <a href="#about-profile" data-target="about-profile" data-parent="about" class="sub-tab-link px-2 py-1 rounded text-xs text-gray-400 hover:text-gray-900">自己紹介</a>
-            <a href="#about-hobbies" data-target="about-hobbies" data-parent="about" class="sub-tab-link px-2 py-1 rounded text-xs text-gray-400 hover:text-gray-900">趣味</a>
-            <a href="#about-strengths" data-target="about-strengths" data-parent="about" class="sub-tab-link px-2 py-1 rounded text-xs text-gray-400 hover:text-gray-900">強み</a>
-            <a href="#about-skills" data-target="about-skills" data-parent="about" class="sub-tab-link px-2 py-1 rounded text-xs text-gray-400 hover:text-gray-900">スキル</a>
-            <a href="#about-university" data-target="about-university" data-parent="about" class="sub-tab-link px-2 py-1 rounded text-xs text-gray-400 hover:text-gray-900">大学で学んでいること</a>
+        <div class="group">
+            <a href="#about" data-target="about" data-parent="about" class="tab-link parent-link px-3 py-2 rounded text-base text-gray-400 hover:text-gray-900 whitespace-nowrap">- About</a>
+            <div class="subnav flex max-h-0 flex-col gap-0.5 overflow-hidden pl-4 opacity-0 transition-all duration-[900ms] ease-out group-hover:max-h-96 group-hover:opacity-100 group-focus-within:max-h-96 group-focus-within:opacity-100">
+                <a href="#about-profile" data-target="about-profile" data-parent="about" class="sub-tab-link px-3 py-1.5 rounded text-sm text-gray-400 hover:text-gray-900 whitespace-nowrap">自己紹介</a>
+                <a href="#about-university" data-target="about-university" data-parent="about" class="sub-tab-link px-3 py-1.5 rounded text-sm text-gray-400 hover:text-gray-900 whitespace-nowrap">大学で学んでいること</a>
+                <a href="#about-strengths" data-target="about-strengths" data-parent="about" class="sub-tab-link px-3 py-1.5 rounded text-sm text-gray-400 hover:text-gray-900 whitespace-nowrap">強み</a>
+                <a href="#about-skills" data-target="about-skills" data-parent="about" class="sub-tab-link px-3 py-1.5 rounded text-sm text-gray-400 hover:text-gray-900 whitespace-nowrap">スキル</a>
+                <a href="#about-hobbies" data-target="about-hobbies" data-parent="about" class="sub-tab-link px-3 py-1.5 rounded text-sm text-gray-400 hover:text-gray-900 whitespace-nowrap">趣味</a>
+            </div>
         </div>
 
-        <a href="#articles" data-target="articles" data-parent="articles" class="tab-link parent-link px-2 py-1.5 rounded text-gray-400 hover:text-gray-900">- Articles</a>
-        <div class="subnav pl-4 flex flex-col gap-0.5 hidden" data-subnav-for="articles">
-            <a href="#articles-experience" data-target="articles-experience" data-parent="articles" class="sub-tab-link px-2 py-1 rounded text-xs text-gray-400 hover:text-gray-900">経験談</a>
-            <a href="#articles-personal" data-target="articles-personal" data-parent="articles" class="sub-tab-link px-2 py-1 rounded text-xs text-gray-400 hover:text-gray-900">個人開発</a>
-            <a href="#articles-team" data-target="articles-team" data-parent="articles" class="sub-tab-link px-2 py-1 rounded text-xs text-gray-400 hover:text-gray-900">チーム開発</a>
+        <div class="group">
+            <a href="#articles" data-target="articles" data-parent="articles" class="tab-link parent-link px-3 py-2 rounded text-base text-gray-400 hover:text-gray-900 whitespace-nowrap">- Articles</a>
+            <div class="subnav flex max-h-0 flex-col gap-0.5 overflow-hidden pl-4 opacity-0 transition-all duration-[900ms] ease-out group-hover:max-h-96 group-hover:opacity-100 group-focus-within:max-h-96 group-focus-within:opacity-100">
+                <a href="#articles-experience" data-target="articles-experience" data-parent="articles" class="sub-tab-link px-3 py-1.5 rounded text-sm text-gray-400 hover:text-gray-900 whitespace-nowrap">経験談</a>
+                <a href="#articles-personal" data-target="articles-personal" data-parent="articles" class="sub-tab-link px-3 py-1.5 rounded text-sm text-gray-400 hover:text-gray-900 whitespace-nowrap">個人開発</a>
+                <a href="#articles-team" data-target="articles-team" data-parent="articles" class="sub-tab-link px-3 py-1.5 rounded text-sm text-gray-400 hover:text-gray-900 whitespace-nowrap">チーム開発</a>
+            </div>
         </div>
 
-        <a href="#contact" data-target="contact" class="tab-link parent-link px-2 py-1.5 rounded text-gray-400 hover:text-gray-900">- Contact</a>
+        <a href="#contact" data-target="contact" class="tab-link parent-link px-3 py-2 rounded text-base text-gray-400 hover:text-gray-900 whitespace-nowrap">- Contact</a>
     </nav>
+    <div class="hidden md:block w-44 shrink-0" aria-hidden="true"></div>
 
     <!-- モバイル用: 親タブのみ横スクロール、子タブはセクション内に埋め込み表示（下記参照） -->
     <nav aria-label="ページ内ナビゲーション（モバイル）" class="md:hidden flex gap-4 overflow-x-auto text-sm border-b pb-2 mb-4 w-full">
-        <a href="#top" data-target="top" class="tab-link parent-link shrink-0 text-gray-400">Top</a>
-        <a href="#about" data-target="about" data-parent="about" class="tab-link parent-link shrink-0 text-gray-400">About</a>
-        <a href="#articles" data-target="articles" data-parent="articles" class="tab-link parent-link shrink-0 text-gray-400">Articles</a>
-        <a href="#contact" data-target="contact" class="tab-link parent-link shrink-0 text-gray-400">Contact</a>
+        <a href="#top" data-target="top" class="tab-link parent-link shrink-0 px-1 py-1 text-base text-gray-400 whitespace-nowrap">Top</a>
+        <a href="#about" data-target="about" data-parent="about" class="tab-link parent-link shrink-0 px-1 py-1 text-base text-gray-400 whitespace-nowrap">About</a>
+        <a href="#articles" data-target="articles" data-parent="articles" class="tab-link parent-link shrink-0 px-1 py-1 text-base text-gray-400 whitespace-nowrap">Articles</a>
+        <a href="#contact" data-target="contact" class="tab-link parent-link shrink-0 px-1 py-1 text-base text-gray-400 whitespace-nowrap">Contact</a>
     </nav>
 
-    <div class="flex-1 min-w-0">
+    <div class="flex-1 min-w-0 w-full">
         <!-- ============ Top ============ -->
-        <section id="top" data-label="トップ" class="tab-section py-16 text-center border-b">
-            <p class="text-xs tracking-wide text-gray-400 mb-4">INIAD / 28卒 / ソフトウェアエンジニア志望</p>
-            <h1 class="text-2xl font-medium mb-3">学びを、形にする。</h1>
-            <p class="text-sm text-gray-600 max-w-md mx-auto mb-6 leading-relaxed">
-                投資への関心から始まり、技術で金融の課題を解きたいと考えています。
-            </p>
-            <div class="flex gap-3 justify-center">
-                <a href="#about-profile" class="tab-link text-sm px-5 py-2 rounded bg-gray-900 text-white">自己紹介を見る</a>
-                <a href="#articles-personal" class="tab-link text-sm px-5 py-2 rounded border">Articlesへ</a>
+        <section id="top" data-label="トップ" class="tab-section relative flex min-h-[calc(100vh-5rem)] items-center justify-center py-16 text-center border-b overflow-hidden">
+            <!-- 背景: モチベーショングラフを円錐地形にした等高線マップ。カーソルのX位置で線の密度が変わる -->
+            <canvas id="terrain-canvas" class="absolute inset-0 z-20 w-full h-full scale-100 pointer-events-none"></canvas>
+
+            <div class="relative z-30">
+                <p class="text-xs tracking-wide text-gray-400 mb-6">就活ポートフォリオ</p>
+
+                <h1 class="text-4xl sm:text-6xl font-bold tracking-widest mb-3 flex items-center justify-center">福島 啓介</h1>
             </div>
         </section>
 
         <!-- ============ About（親） ============ -->
-        <section id="about" data-label="About" class="tab-section py-14 border-b">
+        <section id="about" data-label="About" class="tab-section flex flex-col py-14 border-b">
             <!-- モバイル用の子タブ（デスクトップは左ナビのsubnavを使うのでここは md:hidden） -->
             <nav aria-label="Aboutセクション内ナビ" class="md:hidden flex gap-3 overflow-x-auto text-xs border-b pb-2 mb-6">
-                <a href="#about-profile" data-target="about-profile" data-parent="about" class="sub-tab-link shrink-0 text-gray-400">自己紹介</a>
-                <a href="#about-hobbies" data-target="about-hobbies" data-parent="about" class="sub-tab-link shrink-0 text-gray-400">趣味</a>
-                <a href="#about-strengths" data-target="about-strengths" data-parent="about" class="sub-tab-link shrink-0 text-gray-400">強み</a>
-                <a href="#about-skills" data-target="about-skills" data-parent="about" class="sub-tab-link shrink-0 text-gray-400">スキル</a>
-                <a href="#about-university" data-target="about-university" data-parent="about" class="sub-tab-link shrink-0 text-gray-400">大学で学んでいること</a>
+                <a href="#about-profile" data-target="about-profile" data-parent="about" class="sub-tab-link shrink-0 px-1 py-1 text-sm whitespace-nowrap text-gray-400">自己紹介</a>
+                <a href="#about-university" data-target="about-university" data-parent="about" class="sub-tab-link shrink-0 px-1 py-1 text-sm whitespace-nowrap text-gray-400">大学で学んでいること</a>
+                <a href="#about-strengths" data-target="about-strengths" data-parent="about" class="sub-tab-link shrink-0 px-1 py-1 text-sm whitespace-nowrap text-gray-400">強み</a>
+                <a href="#about-skills" data-target="about-skills" data-parent="about" class="sub-tab-link shrink-0 px-1 py-1 text-sm whitespace-nowrap text-gray-400">スキル</a>
+                <a href="#about-hobbies" data-target="about-hobbies" data-parent="about" class="sub-tab-link shrink-0 px-1 py-1 text-sm whitespace-nowrap text-gray-400">趣味</a>
             </nav>
 
-            <div id="about-profile" class="sub-section" data-parent="about">
+            <div id="about-profile" class="sub-section order-1 scroll-mt-24 py-8 border-t first:border-t-0 first:pt-0" data-parent="about">
                 <p class="text-xs text-gray-400 mb-2">about / 自己紹介</p>
                 <h2 class="text-lg font-medium mb-4">自己紹介</h2>
-                <div class="flex gap-5 items-start mb-4">
-                    <div class="w-14 h-14 rounded-full bg-blue-50 shrink-0 flex items-center justify-center text-xs font-medium text-blue-700">
-                        写真
+                <div class="grid grid-cols-3 gap-3 mb-4">
+                    <div class="group relative aspect-square overflow-hidden rounded bg-gray-50">
+                        <img src="/media/learning_covers/2025-09-27.jpg" alt="プロフィール写真1" class="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105">
+                        <p class="absolute inset-x-0 bottom-0 translate-y-full bg-black/65 px-2 py-2 text-center text-xs text-white transition-transform duration-300 group-hover:translate-y-0">9年間野球にのめりこみ、甲子園予選4回戦進出</p>
                     </div>
-                    <p class="text-sm text-gray-600 leading-loose">
-                        高校生の頃、ニュースで見た決算発表をきっかけに株式投資を始めた。数字の裏にある企業の意思決定に興味を持ち、
-                        やがて「技術がその意思決定をどう支えられるか」という問いに関心が移っていった。
-                    </p>
+                    <div class="group relative aspect-square overflow-hidden rounded bg-gray-50">
+                        <img src="/media/learning_covers/myphoto_3.webp" alt="プロフィール写真2" class="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105">
+                        <p class="absolute inset-x-0 bottom-0 translate-y-full bg-black/65 px-2 py-2 text-center text-xs text-white transition-transform duration-300 group-hover:translate-y-0">大学1年生から続けているアルバイト先のレストラン</p>
+                    </div>
+                    <div class="group relative aspect-square overflow-hidden rounded bg-gray-50">
+                        <img src="/media/learning_covers/myphoto2.JPG" alt="プロフィール写真3" class="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105">
+                        <p class="absolute inset-x-0 bottom-0 translate-y-full bg-black/65 px-2 py-2 text-center text-xs text-white transition-transform duration-300 group-hover:translate-y-0">高校の友人と始めたチーム開発</p>
+                    </div>
                 </div>
+                <p class="mb-5 text-xl font-semibold leading-relaxed text-gray-900 sm:text-2xl">
+                    東洋大学 情報連携学部 情報連携学科 3年 福島啓介
+                </p>
                 <p class="text-sm text-gray-600 leading-loose mb-3">
-                    大学ではDjangoやAndroid開発を通じて手を動かす学びを積み重ねる一方、家計簿を自作ツールで自動化するなど、
-                    日常の課題を自分の手で解決することを習慣にしてきた。派手さより、地道な継続を大事にするタイプ。
+                    このサイトに立ち寄っていただき、ありがとうございます。東洋大学 情報連携学部 情報連携学科(INIAD)3年の福島啓介(フクシマケイスケ)です。現在28卒として、IT業界を中心に就職活動をしています。
+                </p>
+                <p class="text-sm text-gray-600 leading-loose mb-3">
+                    情報系への進学は、正直に言うと第一志望ではありませんでした。しかし講義を通して、コードが動く瞬間や、複雑な仕組みを理解できた瞬間に、手を動かした分だけ形になる面白さを感じるようになりました。
+                </p>
+                <p class="text-sm text-gray-600 leading-loose mb-3">
+                    中でも、大学や学外のチーム開発では、多様な視点から解決策を探り、試行錯誤を重ねることにやりがいを感じました。この経験が、IT業界という進路を意識するきっかけになっています。
+                </p>
+                <p class="text-sm text-gray-600 leading-loose mb-3">
+                    また、ITスキルはあくまでツールの1つで、人とのつながりがあってはじめて活きるものだと考えています。技術と対話の両方を大事にしていきたいです。
                 </p>
                 <p class="text-sm text-gray-600 leading-loose">
-                    今は、投資の実体験と技術の両方を持つ強みを活かし、フィンテック領域で価値を出せるエンジニアになることを目指している。
+                    Aboutで人物像を、Articlesで個人開発・チーム開発の詳細をご覧いただけると幸いです。よろしくお願いいたします。
                 </p>
             </div>
 
-            <div id="about-hobbies" class="sub-section" data-parent="about">
+            <div id="about-hobbies" class="sub-section order-5 scroll-mt-24 py-8 border-t first:border-t-0 first:pt-0" data-parent="about">
                 <p class="text-xs text-gray-400 mb-2">about / 趣味</p>
                 <h2 class="text-lg font-medium mb-5">趣味</h2>
-                <div class="grid grid-cols-3 gap-4">
+                <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <div class="aspect-square bg-gray-50 rounded flex items-center justify-center text-gray-300 text-xs mb-2">photo</div>
+                        <img src="/media/hobbies/スクリーンショット%202026-09-03%20221728.png" alt="株式投資" class="aspect-square w-full object-contain bg-gray-50 rounded mb-2">
                         <p class="text-xs font-medium">株式投資</p>
-                        <p class="text-xs text-gray-500 mt-0.5">SBI証券NISA運用中</p>
+                        <p class="text-xs text-gray-500 mt-0.5">Pythonでテクニカル分析やポートフォリオ管理ツールを自作</p>
                     </div>
                     <div>
-                        <div class="aspect-square bg-gray-50 rounded flex items-center justify-center text-gray-300 text-xs mb-2">photo</div>
-                        <p class="text-xs font-medium">ワイン</p>
-                        <p class="text-xs text-gray-500 mt-0.5">週末はテイスティングを楽しむ</p>
-                    </div>
-                    <div>
-                        <div class="aspect-square bg-gray-50 rounded flex items-center justify-center text-gray-300 text-xs mb-2">photo</div>
-                        <p class="text-xs font-medium">音楽</p>
-                        <p class="text-xs text-gray-500 mt-0.5">サカナクションのライブに参戦</p>
+                        <img src="/media/hobbies/スクリーンショット%202026-09-03%20215952.png" alt="クラフトビール" class="aspect-square w-full object-contain bg-gray-50 rounded mb-2">
+                        <p class="text-xs font-medium">クラフトビール</p>
+                        <p class="text-xs text-gray-500 mt-0.5">飲んできたビールをNotionデータベースに記録しています</p>
                     </div>
                 </div>
             </div>
 
-            <div id="about-strengths" class="sub-section" data-parent="about">
+            <div id="about-strengths" class="sub-section order-3 scroll-mt-24 py-8 border-t first:border-t-0 first:pt-0" data-parent="about">
                 <p class="text-xs text-gray-400 mb-2">about / 強み</p>
                 <h2 class="text-lg font-medium mb-5">強み</h2>
-                <div class="grid grid-cols-3 gap-4 text-center">
+                <div class="grid grid-cols-1 gap-4 text-left">
                     <div>
-                        <p class="text-sm font-medium mb-1">継続力</p>
-                        <p class="text-xs text-gray-500">日々の学習ログと家計管理を継続中</p>
+                        <p class="text-lg font-semibold mb-1">継続力</p>
+                        <p class="text-xs text-gray-500">投資日誌を毎日記録。野球で培った、反復練習と仮説検証で再現性を高める姿勢が根にあります</p>
                     </div>
                     <div>
-                        <p class="text-sm font-medium mb-1">課題発見力</p>
-                        <p class="text-xs text-gray-500">身の回りの不便を自作ツールで解決</p>
+                        <p class="text-lg font-semibold mb-1">課題発見力</p>
+                        <p class="text-xs text-gray-500">「記録が目的化して節約に繋がらない」課題に気づき、YNAB式の家計管理をNotionで自作しました。</p>
                     </div>
                     <div>
-                        <p class="text-sm font-medium mb-1">数字への強さ</p>
-                        <p class="text-xs text-gray-500">投資経験に基づく定量的な視点</p>
+                        <p class="text-lg font-semibold mb-1">論理的な提案力</p>
+                        <p class="text-xs text-gray-500">料亭のアルバイトでPOSデータを分析し、勘に頼った販促を提案で刷新。満席率16%改善を実現しました。</p>
                     </div>
                 </div>
             </div>
 
-            <div id="about-skills" class="sub-section" data-parent="about">
+            <div id="about-skills" class="sub-section order-4 scroll-mt-24 py-8 border-t first:border-t-0 first:pt-0" data-parent="about">
                 <p class="text-xs text-gray-400 mb-2">about / スキル</p>
                 <h2 class="text-lg font-medium mb-5">スキル</h2>
-                <div class="space-y-2.5 text-sm">
-                    <div class="flex gap-3">
-                        <span class="text-gray-400 w-24 shrink-0">言語</span>
-                        <span>Python, Java</span>
+                <div class="mb-6 space-y-1 text-xs text-gray-500">
+                    <p>● 5: 個人開発・チーム開発で継続的に使用</p>
+                    <p>● 4: 複数の実装や個人学習で活用</p>
+                    <p>● 3: 授業や小規模な実装で使用</p>
+                    <p>● 2: 基本的な実装を経験</p>
+                    <p>● 1: 基礎を学習中</p>
+                </div>
+                <div class="space-y-6 text-sm">
+                    <div>
+                        <h3 class="mb-3 text-base font-semibold text-gray-900">言語</h3>
+                        <div class="space-y-3">
+                            <div><div class="mb-1 flex justify-between"><span>Python</span><span class="text-xs text-gray-400">5</span></div><div class="h-2 rounded-full bg-gray-100"><div class="h-2 w-full rounded-full bg-gray-700"></div></div></div>
+                            <div><div class="mb-1 flex justify-between"><span>Java</span><span class="text-xs text-gray-400">3</span></div><div class="h-2 rounded-full bg-gray-100"><div class="h-2 w-3/5 rounded-full bg-gray-700"></div></div></div>
+                            <div><div class="mb-1 flex justify-between"><span>SQL</span><span class="text-xs text-gray-400">4</span></div><div class="h-2 rounded-full bg-gray-100"><div class="h-2 w-4/5 rounded-full bg-gray-700"></div></div></div>
+                        </div>
                     </div>
-                    <div class="flex gap-3">
-                        <span class="text-gray-400 w-24 shrink-0">フレームワーク</span>
-                        <span>Django, Tailwind CSS</span>
+                    <div>
+                        <h3 class="mb-3 text-base font-semibold text-gray-900">フレームワーク</h3>
+                        <div class="space-y-3">
+                            <div><div class="mb-1 flex justify-between"><span>Django</span><span class="text-xs text-gray-400">4</span></div><div class="h-2 rounded-full bg-gray-100"><div class="h-2 w-4/5 rounded-full bg-gray-700"></div></div></div>
+                            <div><div class="mb-1 flex justify-between"><span>Next.js</span><span class="text-xs text-gray-400">2</span></div><div class="h-2 rounded-full bg-gray-100"><div class="h-2 w-2/5 rounded-full bg-gray-700"></div></div></div>
+                        </div>
                     </div>
-                    <div class="flex gap-3">
-                        <span class="text-gray-400 w-24 shrink-0">ツール</span>
-                        <span>GitHub Actions, Notion API</span>
+                    <div>
+                        <h3 class="mb-3 text-base font-semibold text-gray-900">ツール</h3>
+                        <div class="space-y-3">
+                            <div><div class="mb-1 flex justify-between"><span>GitHub Actions/Dockerなどを使ったワークフロー構築</span><span class="text-xs text-gray-400">4</span></div><div class="h-2 rounded-full bg-gray-100"><div class="h-2 w-4/5 rounded-full bg-gray-700"></div></div></div>
+                            <div><div class="mb-1 flex justify-between"><span>Notion APIなどオープンデータAPIの活用</span><span class="text-xs text-gray-400">5</span></div><div class="h-2 rounded-full bg-gray-100"><div class="h-2 w-full rounded-full bg-gray-700"></div></div></div>
+                            <div><div class="mb-1 flex justify-between"><span>機械学習(TensorFlow/scikit-learn)</span><span class="text-xs text-gray-400">3</span></div><div class="h-2 rounded-full bg-gray-100"><div class="h-2 w-3/5 rounded-full bg-gray-700"></div></div></div>
+                        </div>
                     </div>
-                    <div class="flex gap-3">
-                        <span class="text-gray-400 w-24 shrink-0">領域</span>
-                        <span>投資分析, 家計管理自動化</span>
+                    <div>
+                        <h3 class="mb-3 text-base font-semibold text-gray-900">領域</h3>
+                        <div class="space-y-3">
+                            <div><div class="mb-1 flex justify-between"><span>UI/UX(Figma/Unity)</span><span class="text-xs text-gray-400">3</span></div><div class="h-2 rounded-full bg-gray-100"><div class="h-2 w-3/5 rounded-full bg-gray-700"></div></div></div>
+                            <div><div class="mb-1 flex justify-between"><span>Android開発</span><span class="text-xs text-gray-400">2</span></div><div class="h-2 rounded-full bg-gray-100"><div class="h-2 w-2/5 rounded-full bg-gray-700"></div></div></div>
+                            <div><div class="mb-1 flex justify-between"><span>グラフアルゴリズム</span><span class="text-xs text-gray-400">2</span></div><div class="h-2 rounded-full bg-gray-100"><div class="h-2 w-2/5 rounded-full bg-gray-700"></div></div></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div id="about-university" class="sub-section" data-parent="about">
+            <div id="about-university" class="sub-section order-2 scroll-mt-24 py-8 border-t first:border-t-0 first:pt-0" data-parent="about">
                 <p class="text-xs text-gray-400 mb-2">about / 大学で学んでいること</p>
-                <h2 class="text-lg font-medium mb-5">大学で学んでいること</h2>
-                <div class="space-y-2.5 text-sm">
-                    <div class="flex gap-3">
-                        <span class="text-gray-400 w-24 shrink-0">モバイル</span>
-                        <span>Android（Java）でのデザインパターン実装</span>
+                <h2 class="text-lg font-medium mb-6">大学で学んでいること</h2>
+
+                <div class="space-y-8">
+                    <div>
+                        <p class="text-sm font-medium mb-1">コンピュータ・ソフトウェア科目群</p>
+                        <p class="text-xs text-gray-500 leading-relaxed mb-2">
+                            社会の課題を分析し、それを解決する情報サービスをどう設計・開発するかを学ぶ科目群です。変化の速い現代に対応するための、迅速な立ち上げと継続的な改善を前提としたソフトウェア開発手法も扱います。
+                        </p>
+                        <p class="text-xs text-gray-400">
+                            科目例: 「アルゴリズムとデータ構造」「データベース」「ソフトウェア・エンジニアリング」「サイバーセキュリティ」
+                        </p>
                     </div>
-                    <div class="flex gap-3">
-                        <span class="text-gray-400 w-24 shrink-0">Web</span>
-                        <span>Django + GitHub Actions CI/CD</span>
+
+                    <div>
+                        <p class="text-sm font-medium mb-1">ユーザ・エクスペリエンス科目群</p>
+                        <p class="text-xs text-gray-500 leading-relaxed mb-2">
+                            デザインの基礎知識を土台に、「人とコンピュータがどう関わるか」を深く学ぶ科目群です。魅力的な情報サービスに欠かせないUXデザインについて、新しいアイデアを形にするための実践的な知識・スキルを身につけます。
+                        </p>
+                        <p class="text-xs text-gray-400">
+                            科目例: 「デザイン理論」「UXデザイン」「ヒューマン・コンピュータ・インタラクション」
+                        </p>
                     </div>
-                    <div class="flex gap-3">
-                        <span class="text-gray-400 w-24 shrink-0">アルゴリズム</span>
-                        <span>グラフ探索・最短経路・マッチング問題（Python）</span>
+
+                    <div>
+                        <p class="text-sm font-medium mb-1">研究室(プレ卒論・卒業研究)</p>
+                        <p class="text-xs text-gray-500 leading-relaxed">
+                            データ連携とDX、半導体事業を専門とする玉野井豊教授の研究室で、プレ卒論・卒業研究に取り組む予定です。企業における実務経験を持つ玉野井先生のもとで、「企業におけるデータ活用」をテーマに研究を進めていきたいと考えています。
+                        </p>
                     </div>
                 </div>
+
+                <p class="text-xs text-gray-400 mt-6">
+                    出典: <a href="https://www.iniad.org/education/curriculum/" class="underline hover:text-gray-600" target="_blank" rel="noopener">INIAD カリキュラム</a> / <a href="https://www.iniad.org/staff-list/" class="underline hover:text-gray-600" target="_blank" rel="noopener">INIAD 教員紹介</a>
+                </p>
             </div>
         </section>
 
         <!-- ============ Articles（親） ============ -->
         <section id="articles" data-label="Articles" class="tab-section py-14 border-b">
             <nav aria-label="Articlesセクション内ナビ" class="md:hidden flex gap-3 overflow-x-auto text-xs border-b pb-2 mb-6">
-                <a href="#articles-experience" data-target="articles-experience" data-parent="articles" class="sub-tab-link shrink-0 text-gray-400">経験談</a>
-                <a href="#articles-personal" data-target="articles-personal" data-parent="articles" class="sub-tab-link shrink-0 text-gray-400">個人開発</a>
-                <a href="#articles-team" data-target="articles-team" data-parent="articles" class="sub-tab-link shrink-0 text-gray-400">チーム開発</a>
+                <a href="#articles-experience" data-target="articles-experience" data-parent="articles" class="sub-tab-link shrink-0 px-1 py-1 text-sm whitespace-nowrap text-gray-400">経験談</a>
+                <a href="#articles-personal" data-target="articles-personal" data-parent="articles" class="sub-tab-link shrink-0 px-1 py-1 text-sm whitespace-nowrap text-gray-400">個人開発</a>
+                <a href="#articles-team" data-target="articles-team" data-parent="articles" class="sub-tab-link shrink-0 px-1 py-1 text-sm whitespace-nowrap text-gray-400">チーム開発</a>
             </nav>
 
-            <div id="articles-experience" class="sub-section" data-parent="articles">
+            <div id="articles-experience" class="sub-section scroll-mt-24 py-8 border-t first:border-t-0 first:pt-0" data-parent="articles">
                 <p class="text-xs text-gray-400 mb-2">articles / 経験談</p>
                 <h2 class="text-lg font-medium mb-5">経験談</h2>
                 {% include "core/_note_article_list.html" with articles=articles_by_category.experience %}
             </div>
 
-            <div id="articles-personal" class="sub-section" data-parent="articles">
+            <div id="articles-personal" class="sub-section scroll-mt-24 py-8 border-t first:border-t-0 first:pt-0" data-parent="articles">
                 <p class="text-xs text-gray-400 mb-2">articles / 個人開発</p>
                 <h2 class="text-lg font-medium mb-5">個人開発</h2>
                 {% include "core/_note_article_list.html" with articles=articles_by_category.personal %}
             </div>
 
-            <div id="articles-team" class="sub-section" data-parent="articles">
+            <div id="articles-team" class="sub-section scroll-mt-24 py-8 border-t first:border-t-0 first:pt-0" data-parent="articles">
                 <p class="text-xs text-gray-400 mb-2">articles / チーム開発</p>
                 <h2 class="text-lg font-medium mb-5">チーム開発</h2>
                 {% include "core/_note_article_list.html" with articles=articles_by_category.team %}
@@ -195,14 +252,15 @@
         </section>
 
         <!-- ============ Contact ============ -->
-        <section id="contact" data-label="お問い合わせ" class="tab-section py-14 flex justify-between items-center">
-            <div>
-                <p class="text-sm font-medium mb-1">お問い合わせ</p>
-                <p class="text-xs text-gray-500">GitHub / メールでご連絡ください</p>
-            </div>
-            <div class="flex gap-3 text-gray-500">
-                <a href="https://github.com/s1f102203078" target="_blank" rel="noopener" aria-label="GitHub">GitHub</a>
-            </div>
+        <section id="contact" data-label="お問い合わせ" class="tab-section py-14">
+            <p class="text-xs text-gray-400 mb-2">Contact</p>
+            <h2 class="text-lg font-medium mb-4">お問い合わせ</h2>
+            <p class="text-sm text-gray-600 mb-4 leading-relaxed">
+                ここまでご覧いただきありがとうございます。少しでもご興味を持っていただけましたら、ご質問やカジュアル面談のお誘いなど、お気軽にご連絡ください。
+            </p>
+            <a href="mailto:s1f102203078@iniad.org" class="text-sm text-gray-600 hover:text-gray-900 underline">
+                s1f102203078@iniad.org
+            </a>
         </section>
     </div>
 </div>
@@ -214,18 +272,16 @@
     var DEFAULT_PARENT = 'top';
     // 親タブごとの子タブ一覧（親のみのタブ = top, contact は子を持たない）
     var CHILDREN = {
-        about: ['profile', 'hobbies', 'strengths', 'skills', 'university'],
+        about: ['profile', 'university', 'strengths', 'skills', 'hobbies'],
         articles: ['experience', 'personal', 'team'],
     };
 
     var sections = Array.from(document.querySelectorAll('.tab-section'));       // 親セクション（top/about/articles/contact）
-    var subSections = Array.from(document.querySelectorAll('.sub-section'));    // 子セクション
     var parentLinks = Array.from(document.querySelectorAll('.parent-link[data-target]'));
     var subLinks = Array.from(document.querySelectorAll('.sub-tab-link[data-target]'));
-    var subnavs = Array.from(document.querySelectorAll('.subnav[data-subnav-for]')); // デスクトップ左ナビの子タブ一覧ブロック
 
-    function parseHash() {
-        var raw = (location.hash || '').replace('#', '');
+    function parseHash(raw) {
+        raw = (raw || location.hash || '').replace('#', '');
         if (!raw) return { parent: DEFAULT_PARENT, child: null };
 
         // "about-hobbies" のような "親-子" 形式を判定
@@ -239,9 +295,8 @@
             }
         }
 
-        // "about" のように親だけ指定された場合は最初の子をデフォルト表示
         if (raw === 'about' || raw === 'articles') {
-            return { parent: raw, child: CHILDREN[raw][0] };
+            return { parent: raw, child: null };
         }
         if (raw === 'top' || raw === 'contact') {
             return { parent: raw, child: null };
@@ -250,22 +305,7 @@
         return { parent: DEFAULT_PARENT, child: null };
     }
 
-    function render() {
-        var state = parseHash();
-
-        // 親セクションの表示切り替え
-        sections.forEach(function (s) {
-            var active = s.id === state.parent;
-            s.classList.toggle('hidden', !active);
-            s.setAttribute('aria-hidden', active ? 'false' : 'true');
-        });
-
-        // 子セクションの表示切り替え（アクティブな親の中でのみ意味を持つ）
-        subSections.forEach(function (s) {
-            var active = s.dataset.parent === state.parent && s.id === (state.parent + '-' + state.child);
-            s.classList.toggle('hidden', !active);
-        });
-
+    function highlight(state) {
         // 親タブのハイライト
         parentLinks.forEach(function (link) {
             var linkParent = link.dataset.parent || link.dataset.target; // top/contactはdata-parentなし
@@ -278,9 +318,9 @@
             else link.removeAttribute('aria-current');
         });
 
-        // 子タブのハイライト
+        // 子タブのハイライト（同じ親内で、今スクロールして見ている/ジャンプ先のサブセクションを強調）
         subLinks.forEach(function (link) {
-            var active = link.dataset.target === (state.parent + '-' + state.child);
+            var active = state.child && link.dataset.target === (state.parent + '-' + state.child);
             link.classList.toggle('text-gray-900', active);
             link.classList.toggle('font-medium', active);
             link.classList.toggle('bg-gray-100', active);
@@ -288,16 +328,98 @@
             if (active) link.setAttribute('aria-current', 'page');
             else link.removeAttribute('aria-current');
         });
+    }
 
-        // デスクトップ左ナビ: アクティブな親のsubnavだけ表示
-        subnavs.forEach(function (nav) {
-            nav.classList.toggle('hidden', nav.dataset.subnavFor !== state.parent);
+    function refreshTopBackgroundAfterLayout() {
+        if (!window.refreshTerrainBackground) return;
+        window.requestAnimationFrame(function () {
+            window.requestAnimationFrame(window.refreshTerrainBackground);
         });
     }
 
-    window.addEventListener('hashchange', render);
-    window.addEventListener('DOMContentLoaded', render);
-    render();
+    function showParent(parent) {
+        sections.forEach(function (s) {
+            var active = s.id === parent;
+            s.classList.toggle('hidden', !active);
+            s.setAttribute('aria-hidden', active ? 'false' : 'true');
+        });
+
+        if (parent === 'top') refreshTopBackgroundAfterLayout();
+    }
+
+    // クリック時: 親を表示 → 子が指定されていればそこへスムーズスクロール
+    function navigateTo(raw, opts) {
+        opts = opts || {};
+        var state = parseHash(raw);
+        showParent(state.parent);
+        highlight(state);
+
+        if (state.child) {
+            var target = document.getElementById(state.parent + '-' + state.child);
+            if (target) {
+                // 親セクションを表示した直後はレイアウトが未確定な場合があるため、次フレームでスクロール
+                window.requestAnimationFrame(function () {
+                    target.scrollIntoView({ behavior: opts.smooth === false ? 'auto' : 'smooth', block: 'start' });
+                });
+            }
+        } else {
+            window.scrollTo({ top: 0, behavior: opts.smooth === false ? 'auto' : 'smooth' });
+        }
+    }
+
+    // 全てのタブ/サブタブリンクのクリックをJSで制御（履歴には残しつつ、独自にスクロール制御する）
+    Array.from(document.querySelectorAll('.tab-link[href^="#"], .sub-tab-link[href^="#"]')).forEach(function (link) {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            var hash = link.getAttribute('href');
+            if (history.pushState) {
+                history.pushState(null, '', hash);
+            } else {
+                location.hash = hash;
+            }
+            navigateTo(hash);
+        });
+    });
+
+    // ブラウザの戻る/進むボタンにも対応
+    window.addEventListener('popstate', function () {
+        navigateTo(location.hash, { smooth: false });
+    });
+
+    // スクロールスパイ: 表示中の親セクション内でどのサブセクションが画面に近いかを見て、左ナビのハイライトだけ追従させる
+    var scrollSpyTicking = false;
+    function updateScrollSpy() {
+        scrollSpyTicking = false;
+        var activeParentSection = sections.find(function (s) { return !s.classList.contains('hidden'); });
+        if (!activeParentSection) return;
+
+        var parentId = activeParentSection.id;
+        var children = CHILDREN[parentId];
+        if (!children) return; // top/contactのように子を持たないセクションは対象外
+
+        var midpoint = window.innerHeight / 2;
+        var current = children[0];
+        children.forEach(function (child) {
+            var el = document.getElementById(parentId + '-' + child);
+            if (!el) return;
+            var rect = el.getBoundingClientRect();
+            if (rect.top <= midpoint) current = child;
+        });
+
+        highlight({ parent: parentId, child: current });
+    }
+
+    window.addEventListener('scroll', function () {
+        if (!scrollSpyTicking) {
+            window.requestAnimationFrame(updateScrollSpy);
+            scrollSpyTicking = true;
+        }
+    });
+
+    // 初期表示
+    navigateTo(location.hash, { smooth: false });
 })();
 </script>
+
+<script src="{% static 'core/js/terrain-background.js' %}"></script>
 {% endblock %}

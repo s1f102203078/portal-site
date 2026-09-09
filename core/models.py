@@ -13,7 +13,8 @@ class NoteArticle(models.Model):
 
     title = models.CharField(max_length=200)
     url = models.URLField(unique=True)
-    summary = models.TextField(blank=True, help_text="RSSのdescriptionをそのまま保存")
+    summary = models.TextField(blank=True, help_text="HTMLタグを除去したプレーンテキストで保存")
+    thumbnail_url = models.URLField(blank=True, help_text="noteのサムネイル画像URL")
     category = models.CharField(
         max_length=20,
         choices=CATEGORY_CHOICES,
