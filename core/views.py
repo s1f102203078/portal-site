@@ -1,11 +1,13 @@
 import hmac
+import json
 
 from decouple import config
-from django.core.management import call_command
 from django.http import JsonResponse
+from django.utils.dateparse import parse_datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
+
 from .models import NoteArticle
 
 
@@ -31,7 +33,23 @@ def sync_webhook(request):
         return JsonResponse({'error': 'unauthorized'}, status=401)
 
     try:
-        call_command('sync_note')
-        return JsonResponse({'status': 'ok'})
+        payload = json.loads(request.body)
+        articles = payload.get('articles', [])
+
+        synced_count = 0
+        for item in articles:
+            NoteArticle.objects.update_or_create(
+                url=item['url'],
+                defaults={
+                    'title': item['title'],
+                    'summary': item.get('summary', ''),
+                    'thumbnail_url': item.get('thumbnail_url', ''),
+                    'category': item['category'],
+                    'published_at': parse_datetime(item['published_at']),
+                },
+            )
+            synced_count += 1
+
+        return JsonResponse({'status': 'ok', 'synced_count': synced_count})
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
