@@ -13,9 +13,10 @@ import feedparser
 import requests
 
 PREFIX_TO_CATEGORY = {
-    '経験談': 'experience',
-    '個人開発': 'personal',
-    'チーム開発': 'team',
+    '自己・業界・企業理解': 'self',
+    '開発の記録と学び': 'dev',
+    '就活イベント・インターンでの振り返り': 'event',
+    '時事・興味の考察': 'topic',
 }
 
 PREFIX_PATTERN = re.compile(r'^[\[【]\s*(.+?)\s*[\]】]\s*')
