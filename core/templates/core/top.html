@@ -25,9 +25,10 @@
         <div class="group">
             <a href="#articles" data-target="articles" data-parent="articles" class="tab-link parent-link px-3 py-2 rounded text-base text-gray-400 hover:text-gray-900 whitespace-nowrap">- Articles</a>
             <div class="subnav flex max-h-0 flex-col gap-0.5 overflow-hidden pl-4 opacity-0 transition-all duration-[900ms] ease-out group-hover:max-h-96 group-hover:opacity-100 group-focus-within:max-h-96 group-focus-within:opacity-100">
-                <a href="#articles-experience" data-target="articles-experience" data-parent="articles" class="sub-tab-link px-3 py-1.5 rounded text-sm text-gray-400 hover:text-gray-900 whitespace-nowrap">経験談</a>
-                <a href="#articles-personal" data-target="articles-personal" data-parent="articles" class="sub-tab-link px-3 py-1.5 rounded text-sm text-gray-400 hover:text-gray-900 whitespace-nowrap">個人開発</a>
-                <a href="#articles-team" data-target="articles-team" data-parent="articles" class="sub-tab-link px-3 py-1.5 rounded text-sm text-gray-400 hover:text-gray-900 whitespace-nowrap">チーム開発</a>
+                <a href="#articles-self" data-target="articles-self" data-parent="articles" class="sub-tab-link px-3 py-1.5 rounded text-sm text-gray-400 hover:text-gray-900 whitespace-nowrap">自己・業界・企業理解</a>
+                <a href="#articles-dev" data-target="articles-dev" data-parent="articles" class="sub-tab-link px-3 py-1.5 rounded text-sm text-gray-400 hover:text-gray-900 whitespace-nowrap">開発の記録と学び</a>
+                <a href="#articles-event" data-target="articles-event" data-parent="articles" class="sub-tab-link px-3 py-1.5 rounded text-sm text-gray-400 hover:text-gray-900 whitespace-nowrap">就活イベント・インターンでの振り返り</a>
+                <a href="#articles-topic" data-target="articles-topic" data-parent="articles" class="sub-tab-link px-3 py-1.5 rounded text-sm text-gray-400 hover:text-gray-900 whitespace-nowrap">時事・興味の考察</a>
             </div>
         </div>
 
@@ -100,7 +101,7 @@
                     また、ITスキルはあくまでツールの1つで、人とのつながりがあってはじめて活きるものだと考えています。技術と対話の両方を大事にしていきたいです。
                 </p>
                 <p class="text-sm text-gray-600 leading-loose">
-                    Aboutで人物像を、Articlesで個人開発・チーム開発の詳細をご覧いただけると幸いです。よろしくお願いいたします。
+                    Aboutで人物像を、Articlesで自己分析や開発の記録、就活での学びをご覧いただけると幸いです。よろしくお願いいたします。
                 </p>
             </div>
 
@@ -227,27 +228,34 @@
         <!-- ============ Articles（親） ============ -->
         <section id="articles" data-label="Articles" class="tab-section py-14 border-b">
             <nav aria-label="Articlesセクション内ナビ" class="md:hidden flex gap-3 overflow-x-auto text-xs border-b pb-2 mb-6">
-                <a href="#articles-experience" data-target="articles-experience" data-parent="articles" class="sub-tab-link shrink-0 px-1 py-1 text-sm whitespace-nowrap text-gray-400">経験談</a>
-                <a href="#articles-personal" data-target="articles-personal" data-parent="articles" class="sub-tab-link shrink-0 px-1 py-1 text-sm whitespace-nowrap text-gray-400">個人開発</a>
-                <a href="#articles-team" data-target="articles-team" data-parent="articles" class="sub-tab-link shrink-0 px-1 py-1 text-sm whitespace-nowrap text-gray-400">チーム開発</a>
+                <a href="#articles-self" data-target="articles-self" data-parent="articles" class="sub-tab-link shrink-0 px-1 py-1 text-sm whitespace-nowrap text-gray-400">自己・業界・企業理解</a>
+                <a href="#articles-dev" data-target="articles-dev" data-parent="articles" class="sub-tab-link shrink-0 px-1 py-1 text-sm whitespace-nowrap text-gray-400">開発の記録と学び</a>
+                <a href="#articles-event" data-target="articles-event" data-parent="articles" class="sub-tab-link shrink-0 px-1 py-1 text-sm whitespace-nowrap text-gray-400">就活イベント・インターンでの振り返り</a>
+                <a href="#articles-topic" data-target="articles-topic" data-parent="articles" class="sub-tab-link shrink-0 px-1 py-1 text-sm whitespace-nowrap text-gray-400">時事・興味の考察</a>
             </nav>
 
-            <div id="articles-experience" class="sub-section scroll-mt-24 py-8 border-t first:border-t-0 first:pt-0" data-parent="articles">
-                <p class="text-xs text-gray-400 mb-2">articles / 経験談</p>
-                <h2 class="text-lg font-medium mb-5">経験談</h2>
-                {% include "core/_note_article_list.html" with articles=articles_by_category.experience %}
+            <div id="articles-self" class="sub-section scroll-mt-24 py-8 border-t first:border-t-0 first:pt-0" data-parent="articles">
+                <p class="text-xs text-gray-400 mb-2">articles / 自己・業界・企業理解</p>
+                <h2 class="text-lg font-medium mb-5">自己・業界・企業理解</h2>
+                {% include "core/_note_article_list.html" with articles=articles_by_category.self %}
             </div>
 
-            <div id="articles-personal" class="sub-section scroll-mt-24 py-8 border-t first:border-t-0 first:pt-0" data-parent="articles">
-                <p class="text-xs text-gray-400 mb-2">articles / 個人開発</p>
-                <h2 class="text-lg font-medium mb-5">個人開発</h2>
-                {% include "core/_note_article_list.html" with articles=articles_by_category.personal %}
+            <div id="articles-dev" class="sub-section scroll-mt-24 py-8 border-t first:border-t-0 first:pt-0" data-parent="articles">
+                <p class="text-xs text-gray-400 mb-2">articles / 開発の記録と学び</p>
+                <h2 class="text-lg font-medium mb-5">開発の記録と学び</h2>
+                {% include "core/_note_article_list.html" with articles=articles_by_category.dev %}
             </div>
 
-            <div id="articles-team" class="sub-section scroll-mt-24 py-8 border-t first:border-t-0 first:pt-0" data-parent="articles">
-                <p class="text-xs text-gray-400 mb-2">articles / チーム開発</p>
-                <h2 class="text-lg font-medium mb-5">チーム開発</h2>
-                {% include "core/_note_article_list.html" with articles=articles_by_category.team %}
+            <div id="articles-event" class="sub-section scroll-mt-24 py-8 border-t first:border-t-0 first:pt-0" data-parent="articles">
+                <p class="text-xs text-gray-400 mb-2">articles / 就活イベント・インターンでの振り返り</p>
+                <h2 class="text-lg font-medium mb-5">就活イベント・インターンでの振り返り</h2>
+                {% include "core/_note_article_list.html" with articles=articles_by_category.event %}
+            </div>
+
+            <div id="articles-topic" class="sub-section scroll-mt-24 py-8 border-t first:border-t-0 first:pt-0" data-parent="articles">
+                <p class="text-xs text-gray-400 mb-2">articles / 時事・興味の考察</p>
+                <h2 class="text-lg font-medium mb-5">時事・興味の考察</h2>
+                {% include "core/_note_article_list.html" with articles=articles_by_category.topic %}
             </div>
         </section>
 
@@ -273,7 +281,7 @@
     // 親タブごとの子タブ一覧（親のみのタブ = top, contact は子を持たない）
     var CHILDREN = {
         about: ['profile', 'university', 'strengths', 'skills', 'hobbies'],
-        articles: ['experience', 'personal', 'team'],
+        articles: ['self', 'dev', 'event', 'topic'],
     };
 
     var sections = Array.from(document.querySelectorAll('.tab-section'));       // 親セクション（top/about/articles/contact）

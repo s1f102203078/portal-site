@@ -2,13 +2,15 @@ from django.db import models
 
 
 class NoteArticle(models.Model):
-    CATEGORY_EXPERIENCE = 'experience'
-    CATEGORY_PERSONAL = 'personal'
-    CATEGORY_TEAM = 'team'
+    CATEGORY_SELF = 'self'
+    CATEGORY_DEV = 'dev'
+    CATEGORY_EVENT = 'event'
+    CATEGORY_TOPIC = 'topic'
     CATEGORY_CHOICES = [
-        (CATEGORY_EXPERIENCE, '経験談'),
-        (CATEGORY_PERSONAL, '個人開発'),
-        (CATEGORY_TEAM, 'チーム開発'),
+        (CATEGORY_SELF, '自己・業界・企業理解'),
+        (CATEGORY_DEV, '開発の記録と学び'),
+        (CATEGORY_EVENT, '就活イベント・インターンでの振り返り'),
+        (CATEGORY_TOPIC, '時事・興味の考察'),
     ]
 
     title = models.CharField(max_length=200)
@@ -18,8 +20,8 @@ class NoteArticle(models.Model):
     category = models.CharField(
         max_length=20,
         choices=CATEGORY_CHOICES,
-        default=CATEGORY_PERSONAL,
-        help_text="noteの記事に付けたハッシュタグから自動判定",
+        default=CATEGORY_DEV,
+        help_text="noteの記事タイトル先頭の接頭辞（例: 【開発の記録と学び】）から自動判定",
     )
     published_at = models.DateTimeField()
 

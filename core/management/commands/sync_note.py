@@ -9,14 +9,15 @@ from django.core.management.base import BaseCommand
 from core.models import NoteArticle
 
 # タイトル先頭の接頭辞 → カテゴリの対応表
-# 例: "[経験談] Gensparkと作る！リアルなWebアプリ開発体験記"
+# 例: "【開発の記録と学び】Gensparkと作る！リアルなWebアプリ開発体験記"
 PREFIX_TO_CATEGORY = {
-    '経験談': NoteArticle.CATEGORY_EXPERIENCE,
-    '個人開発': NoteArticle.CATEGORY_PERSONAL,
-    'チーム開発': NoteArticle.CATEGORY_TEAM,
+    '自己・業界・企業理解': NoteArticle.CATEGORY_SELF,
+    '開発の記録と学び': NoteArticle.CATEGORY_DEV,
+    '就活イベント・インターンでの振り返り': NoteArticle.CATEGORY_EVENT,
+    '時事・興味の考察': NoteArticle.CATEGORY_TOPIC,
 }
 
-# 例: "[経験談] " や "【経験談】" のどちらでも拾えるように、括弧の種類を許容する
+# 例: "[開発の記録と学び] " や "【開発の記録と学び】" のどちらでも拾えるように、括弧の種類を許容する
 PREFIX_PATTERN = re.compile(r'^[\[【]\s*(.+?)\s*[\]】]\s*')
 
 # HTMLタグを除去するための簡易パターン（noteのdescriptionはシンプルなタグのみのため正規表現で十分）
@@ -27,7 +28,7 @@ CONTINUE_LINK_PATTERN = re.compile(r'続きをみる\s*$')
 
 class Command(BaseCommand):
     help = (
-        'noteのRSSフィードを取得し、タイトル先頭の接頭辞（例: [経験談]）から'
+        'noteのRSSフィードを取得し、タイトル先頭の接頭辞（例: 【開発の記録と学び】）から'
         'カテゴリを判定してNoteArticleに同期します'
     )
 
